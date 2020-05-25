@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" />
+    <title>Document</title>
+    <style type="text/css">
+      /*分辨率範圍1200-2000*/
+      /* css reset start*/
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      html,
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      ul,
+      li {
+        margin: 0px;
+        padding: 0px;
+        font: 14px '微軟雅黑';
+      }
+      #wrap{
+        height: 100%;
+      }
+      a {
+        text-decoration: none;
+        display: block;/*a要轉block*/
+      }
+      li {
+        list-style: none;
+      }
+      img {/*img要轉block*/
+        display: block;
+      }
+      /*end*/
+      /*common css start*/
+      .clearfix {
+        *zoom: 1;
+      }
+      .clearfix::after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+      .commonTitle{
+        color:blueviolet;font-size:40px;line-height: 1;font-weight: bold;letter-spacing: 2px;
+      }
+      .commonTitle>item{
+        color:black;
+      }
+      .commonText{color:rgb(245, 19, 19);line-height: 1.5;font-size: 20px;}
+      /*common css end*/
+      /*頭部*/
+      .head > .headMain {
+        position: relative;
+        width: 1100px;
+        height: 80px;
+        background-color: white;
+        margin: 0 auto;
+      }
+      .logo img {
+        width: 300px;
+        height: 40px;
+      }
+      nav ul li img {
+        width: 25px;
+        height: 25px;
+      }
+      .logo {
+        margin-top: 30px;
+        float: left;
+      }
+      nav {
+        vertical-align: middle;
+        margin-top: 50px;
+        float: right;
+      }
+      nav > ul > li {
+        height: 25px;
+        text-align: center;
+        position: relative;
+        margin-left: 40px;
+        float: left;
+      }
+      nav > ul > li > span {
+        line-height: 25px;
+      }
+      nav > ul > li .up {
+        width: 0;
+        overflow: hidden;
+        position: absolute;
+        color: rgb(86, 238, 40);
+        transition: 1s width;
+      }
+      nav > ul > li:hover .up {
+        width: 100%;
+      }
+      .arrow {
+        position: absolute;
+        width: 21px;
+        height: 21px;
+        background: url(img/arrow.png) center center;
+        color: rgb(245, 244, 244);
+        left: 50%;
+        bottom: -16px;
+        transform: rotate(90deg);
+        transition: 1s;
+        z-index: 2;
+      }
+      /*音頻*/
+      .music{
+        width:30px;
+        height:30px;
+        background: url(img/musicOff.png) pink;
+        background-size: contain;
+        float: left;
+        margin: 40px 0 0 5px;
+        cursor: pointer;
+      }
+      /*開機動畫*/
+      #mask{
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        z-index: 100;
+      }
+      #mask .up{
+        width:100%;
+        height: 50%;
+        background-color: blueviolet;
+        transition: 1s height;
+      }
+      #mask .down{
+        position: absolute;
+        bottom: 0;
+        width:100%;
+        height: 50%;
+        background-color: blueviolet;
+        transition: 1s height;
+      }
+      #mask .line{
+        width:0%;
+        height: 4px;
+        background: rgb(255, 255, 255);
+        position: absolute;
+        z-index: 101;
+        left: 0;
+        top:50%;
+        margin-top: -2px;
+        transition:2s width;
+      }
+      /*  頭部結束 */
+      /*  content開始 */
+      .content {
+        position: relative;
+        background-color: rgb(241, 213, 241);
+        overflow: hidden;
+        width: 100%;
+      }
+      .content .list {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        transition: 1s;
+      }
+      .content .list > li {
+        position: relative;
+        background-position: 50% 50% !important;
+      }
+      .content .list > li > section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 1100px;
+        height: 460px;
+       
+      }
+      /*第1屏*/
+      .content .list > .home {
+        background: url(img/back01.jpg) no-repeat;
+      }
+      
+      .content .list > .home .home1{
+        width: 100%;
+        height: 100%;
+       
+        perspective: 1000px;
+        transform-style: preserve-3d;
+      }
+      .content .list > .home .home1>li{
+        visibility: hidden;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top:0;
+        bottom:0;
+       
+      }
+      .content .list > .home .home1>li.active{
+        visibility: visible;
+      }
+      /*動畫:從左往右點小圓鈕 左邊消失:leftHide 右邊出現:rightShow*/
+      .content .list > .home .home1>li.leftHide{visibility: hidden;animation:1s leftHide 1 linear}
+      .content .list > .home .home1>li.rightShow{visibility: visible;animation:1s rightShow 1 linear}
+      @keyframes leftHide{
+        0%{visibility: visible;}
+        50%{transform:translateX(-40%) rotateY(30deg) scale(.8);}
+        100%{transform:translateZ(-200px);}
+      }
+      @keyframes rightShow{
+        0%{visibility: hidden;transform:translateZ(-100px);}
+        50%{transform:translateX(40%) rotateY(-30deg) scale(.8);}
+        100%{}
+      }
+       /*動畫:從右往左點小圓鈕 左邊出現:leftShow 右邊消失:rightHide*/
+       .content .list > .home .home1>li.leftShow{visibility: visible;animation:1s leftShow 1 linear}
+      .content .list > .home .home1>li.rightHide{visibility: hidden;animation:1s rightHide 1 linear}
+      @keyframes leftShow{
+        0%{visibility: hidden;transform:translateZ(-100px);}
+        50%{transform:translateX(-40%) rotateY(30deg) scale(.8);}
+        100%{} 
+      }
+      @keyframes rightHide{
+        0%{visibility: visible;}
+        50%{transform:translateX(40%) rotateY(-30deg) scale(.8);}
+        100%{transform:translateZ(-200px);}
+      }
+
+
+      .content .list > .home .home1>li:nth-child(1){
+       
+        background-image:url(./img/H1.jpg);
+        background-size:100% 100%;
+        color:#181818
+      }
+      .content .list > .home .home1>li:nth-child(2){
+        background-image:url(./img/H2.jpg);
+        background-size:100% 100%;
+        color:#181818
+      }
+      .content .list > .home .home1>li:nth-child(3){
+        background-image:url(./img/H3.jpg);
+        background-size:100% 100%;
+      }
+      .content .list > .home .home1>li:nth-child(4){
+        background-image:url(./img/H4.jpg);
+        background-size:100% 100%;
+      }
+      .content .list > .home .home1>li>div{
+        color: rgb(255, 255, 255);
+        text-align: center;
+        line-height:460px;
+      }
+      .content .list > .home .home1>li:nth-child(0)>div,.content .list > .home .home1>li>div:nth-child(1){
+        color: rgb(0, 0, 0);
+        
+      }
+      /*先把寬度撐開*/
+      .content .list > .home .home2{
+position: absolute;
+left:0;
+right: 0;
+text-align: center;
+bottom: 0;
+      }
+      .content .list > .home .home2>li{
+        border-radius: 50%;
+        width:20px;
+        height: 20px;
+        background:rgba(255,255,255,0.5);
+        /*要並列要用inline-block，不可浮動*/
+        display: inline-block;
+box-shadow: 0 0 4px rgba(25, 25, 25,0.8);
+cursor: pointer
+      }
+      .content .list > .home .home2>li.active{
+        background-color: white;cursor: default;
+      }
+
+       /*第2屏*/
+      .content .list > .course {
+        background: url(img/back02.jpg) no-repeat;
+      }
+      .content .list > .course .course1 {
+        position: relative;
+        z-index: 2;
+        margin:50px 0px 100px 50px
+      }
+      .content .list > .course .course2 {
+        position: relative;
+        z-index: 2;
+       width: 400px;
+      margin-left: 50px;
+      }
+      .content .list > .course .course3 {
+       width: 480px;
+      position: absolute;
+        z-index: 2;
+      right: 50px;
+      top:70px;
+      
+      }
+      .content .list > .course .course3 .item {
+        position: relative;
+       float: left;
+       width: 120px;
+      height: 132px;
+      /*給景深和3D舞台*/
+      perspective: 500px;
+      transform-style: preserve-3d;
+      }
+      .content .list > .course .course3 .line {
+        position: absolute;
+        top:-7px;
+       width: 9px;
+      height:410px;
+      background:url(img/line.png) no-repeat;
+      }
+      .content .list > .course .course3 .line:nth-of-type(1){left:-5px;}
+      .content .list > .course .course3 .line:nth-of-type(2){left:115px;}
+      .content .list > .course .course3 .line:nth-of-type(3){left:235px;}
+      .content .list > .course .course3 .line:nth-of-type(4){left:355px;}
+      .content .list > .course .course3 .line:nth-of-type(5){left:475px;}
+
+      .content .list > .course .course3 .item .backFace,.content .list > .course .course3 .item .face{
+position: absolute;left:0;top:0;width: 100%;height: 100%;box-sizing: border-box;padding: 15px;transition: 1s transform;
+      }
+     
+      .content .list > .course .course3 .item .backFace{
+        
+        background: url(
+          img/home_up2.png
+        ) no-repeat;background-position: 50% 50%;
+        
+      }
+      .content .list > .course .course3 .item .face{
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+        text-align: center;
+        line-height:100px ;
+        vertical-align: middle;
+        background: white;
+      }
+      .content .list > .course .course3 .item:hover .face{ transform: rotateY(360deg);
+      }
+      .content .list > .course .course3 .item:hover .backFace{ transform: rotateY(180deg);
+}
+.content .list > .course .plane1{width:480px;height:450px;background: url(img/plane01.png) no-repeat center;background-size: cover;position: absolute;left:300px;top:150px;}
+.content .list > .course .plane2{width:359px;height:238px;background: url(img/plane02.png) no-repeat;position: absolute;left:50px;top:-100px}
+      /*第3屏*/
+      .content .list > .works {
+        background: url(img/back03.jpg) no-repeat;
+      }
+      .content .list > .works .works1{margin:50px 0px 100px 50px}
+      .content .list > .works .works2{
+        margin-left: 50px;
+      }
+      .content .list > .works .works2>.item{float: left;width: 220px;height: 133px;margin: 0px 5px;overflow: hidden;position: relative;}
+      .content .list > .works .works2>.item:nth-last-of-type(1){width: 332px;}
+      .content .list > .works .works2>.item .mask{
+        position: absolute;
+        background:#181818;
+        opacity: 0;
+        color: white;
+       left: 0;
+       right: 0;
+       top:0;
+       bottom:0;
+        box-sizing: border-box;
+        padding: 20px;
+        transition: 1s opacity;
+      }
+      .content .list > .works .works2>.item .icon{
+        width:32px;
+        height:34px;
+        color:pink;
+        margin:auto;
+        margin-top: 10px;
+        background:url(img/search.png) no-repeat;
+        transition: 7s;
+      }
+      .content .list > .works .works2>.item .icon:hover{
+        
+        background-size:140% 140%;
+        transform: rotate(180deg);
+      }
+      
+      .content .list > .works .works2>.item:hover .mask{
+        
+       opacity: 0.7;
+      }
+      .content .list > .works .works2>.item:hover img{
+        
+        transform: rotate(30deg) scale(2.5);
+       }
+       .content .list > .works .works2>.item img{
+        
+        transition: 1s transform;
+       }
+       .content .list > .works .works3{
+         width:300px;height:400px;background: url(img/robot.png) no-repeat;left:780px;top:70px;position: absolute;animation: works3Move 4s linear infinite ;
+       }
+       @keyframes works3Move{
+         0%{
+
+         }
+         47%{transform:translateX(-285px) rotateY(0deg)
+
+         }50%{transform: translateX(-290px) rotateY(180deg) ;
+
+         }100%{transform:translateX(0px) rotateY(180deg)
+
+         }
+
+       }
+       /*第4屏*/
+      .content .list > .about {
+        background: url(img/back04.jpg) no-repeat;
+      }
+      .content .list > .about .about1{
+        width:600px;
+        margin:50px 0 100px 50px;
+      }
+      .content .list > .about .about2{
+        width:400px;
+        margin-left:50px;
+      }
+      .content .list > .about .about3>.item{
+        width:260px;height:200px;border:5px solid rgba(255,255,255,0.5);border-radius: 8px;position: absolute; 
+        overflow: hidden;
+      }
+      .content .list > .about .about3>.item:nth-child(1){left:750px;top:50px}
+      .content .list > .about .about3>.item:nth-child(2){left:600px;top:290px}
+      .content .list > .about .about3>.item>span,.content .list > .about .about3>.item>ul{
+        position: absolute;left:0;right:0;top:0;bottom:0;
+      }
+      .content .list > .about .about3>.item:nth-child(1)>span{
+        background: url(img/egg01-1.jpg) no-repeat;
+        transform:scale(1.5);transition: 1s transform;
+       
+      }
+      .content .list > .about .about3>.item:nth-child(2)>span{
+        background: url(img/egg02-1.png) no-repeat;
+        transform:scale(1.5);transition: 1s transform;
+       
+      }
+      .content .list > .about .about3>.item:hover span{  
+        transform:scale(1);
+      }
+      .content .list > .about .about3>.item>ul>li{
+        float: left;
+        position: relative;
+        overflow: hidden;
+        
+      }
+      .content .list > .about .about3>.item>ul>li img{
+        position: absolute;
+        transition: 1s top,1s left;
+      }
+      /*第5屏*/
+      .content .list > .team {
+        background: url(img/back05.jpg) no-repeat;
+      }
+      .content .list > .team .team1,.content .list > .team .team2{
+        width:400px;height:200px;float:left;
+        margin-left: 50px;
+      }
+      .content .list > .team .team3{
+        width:944px;
+        height:448px;
+        position: absolute;
+        left:50%;
+        top:100px;
+        margin-left: -512px;
+      }
+      .content .list > .team .team3>li{
+        float: left;
+        background: url(img/people.jpg) no-repeat;
+        background-position:0px -240px ;
+        width:150px;
+        height: 80%;
+        transition: 1s opacity;
+      }
+      .content .list > .team .team3>li:nth-child(1){
+        background: url(img/people.jpg);
+        background-position:0px -240px ;
+        width:150px;
+        height: 80%;
+      }
+      .content .list > .team .team3>li:nth-child(2){
+        background: url(img/people.jpg);
+        background-position:-150px -240px ;
+        width:120px;
+        height: 80%;
+      }
+      .content .list > .team .team3>li:nth-child(3){
+        background: url(img/people.jpg);
+        background-position:-264px -240px ;
+        width:120px;
+        height: 80%;
+      }
+      .content .list > .team .team33{
+        position:absolute;
+     width:100%;
+     height: 100%;
+      }
+      .content .list > .team .team3>li:nth-child(4){
+        background: url(img/people.jpg);
+        background-position:-380px -240px ;
+        width:115px;
+        height: 80%;
+      }
+      .content .list > .team .team3>li:nth-child(5){
+        background: url(img/people.jpg);
+        background-position:-500px -240px ;
+        width:135px;
+        height: 80%;
+      }
+      .content .list > .team .team3>li:nth-child(6){
+        background: url(img/people.jpg);
+        background-position:-640px -240px ;
+        width:104px;
+        height: 80%;
+      }
+      .content .list > .team .team3>li:nth-child(7){
+        background: url(img/people.jpg);
+        background-position:-740px -240px ;
+        width:104px;
+        height: 80%;
+      }
+      .content .list > .team canvas{
+        position: absolute;
+       
+    top: 100px;
+   
+      
+      }
+      /*右側小圓點*/
+      .content .dot{
+        position:fixed;
+        right: 0;
+        top:50%;
+      }
+      .content .dot>li{
+        border:2px solid black;
+        border-radius: 30px;
+        width:20px;
+        height: 20px;
+        margin: 4px;
+        cursor: pointer;
+      }
+      .content .dot>li.active{
+        background-color: aliceblue;
+        cursor:default;
+      }
+      
+      /*  content結束 */
+      /*出入場*/
+      .content .list > .home .home1,.content .list > .home .home2{
+        transition: 1s transform,1s opacity;
+      }
+      .content .list > .course .plane1,.content .list > .course .plane2{
+        transition: 1s transform;
+      }
+      .content .list > .about .about3>.item:nth-child(1),.content .list > .about .about3>.item:nth-child(2){ transition: 1s transform;}
+      .content .list > .team .team1,.content .list > .team .team2{ transition: 1s transform,1s opacity;}
+    </style>
+  </head>
+  <body>
+    <section id="wrap">
+      <!--  流體布局-->
+      <div id="mask">
+        <div class="up"></div>
+        <div class="down"></div>
+        <span class="line"></span>
+      </div>
+      <header class="head">
+        <!-- 固定布局 -->
+        <div class="headMain">
+          <h1 class="logo">
+              <img src="img/logo.png" />
+          </h1>
+          <nav class="nav">
+            <!-- clearfix清除浮動把ul高度撐開 -->
+            <ul class="list clearfix">
+              <li>
+                <a href="javascript:;"></a>
+                <div class="up"><img src="img/home_up.png" /></div>
+                <div class="down"><img src="img/home.png" /></div>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span class="up">Course</span>
+                <span class="down">Course</span>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span class="up">Works</span>
+                <span class="down">Works</span>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span class="up">About</span>
+                <span class="down">About</span>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span class="up">Team</span>
+                <span class="down">Team</span>
+              </li>
+            </ul>
+          </nav>
+          <div class="arrow"></div>
+          <div class="music"> 
+            <audio src="img/1.mp3" loop autoplay></audio>
+          </div>
+        </div>
+      </header>
+      <section class="content">
+        <ul class="list">
+          <!-- 每個li都是流體 內部div是固定布局-->
+          <li class="home">
+            <section>
+              <ul class="home1">
+                <li class="commonTitle active">
+                  <div class="item">各大知名仲介</div>
+                </li>
+                <li class="commonTitle">
+                  <div class="item">買賣法拍屋的平台</div>
+                </li>
+                <li class="commonTitle">
+                  <div class="item">建案資訊</div>
+                </li>
+                <li class="commonTitle">
+                  <div class="item">實境Live影音賞屋</div>
+                </li>
+              </ul>
+              <ul class="home2">
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+            </section>
+          </li>
+          <li class="course">
+            <section>
+              <header class="course1 commonTitle">
+                <span>全台十萬筆房屋資料</span></br>
+                <span>完整行情分析</span></br>
+                <span>數百家門市服務</span></br>
+              </header>
+              <div class="course2">
+                <p class="commonText">為您尋找理想好宅！秉持優質化、國際化、科技化精神，買賣租屋專業首選。致力為您搜尋理想的家！房屋買賣/房產投資，有需求立即洽Go。</p>
+                <p class="commonText">成交行情公開透明，實價查詢快速安心！專業、親切的客製化服務，實現你想成家的願望。</p>
+              </div>
+              <div class="course3">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">台北地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">桃園地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">新竹地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">苗栗地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">台中地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">彰化地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">雲林地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">南投地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">嘉義地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">台南地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">高雄地區</div>  
+                </div>
+                <div class="item">
+                  <div class="backFace"></div>
+                  <div class="face">屏東地區</div>  
+                </div>
+                
+              </div>
+              <div class="plane1"></div>
+              <div class="plane2"></div>
+            </section>
+          </li>
+          <li class="works">
+            <section>
+              <header class="works1 commonTitle">
+                <span>預算低也能輕鬆成家</span></br>
+                <span>提供全台精選待售好房</span></br>
+                <span>各大房仲物件。一網打盡</span></br>
+              </header>
+              <div class="works2">
+              <div class="item">
+                <img src="img/ad01.jpg" />
+                <div class="mask">
+                  <span>獨門別墅</span>
+                  <div class="icon"></div>
+                </div>
+              </div>
+              <div class="item">
+                <img src="img/ad02.jpg" />
+                <div class="mask">
+                  <span>懷舊中古透天</span>
+                  <div class="icon"></div>
+                </div>
+              </div>
+              <div class="item">
+                <img src="img/ad03.jpg" />
+                <div class="mask">
+                  <span>鄉野三合院</span>
+                  <div class="icon"></div>
+                </div>
+              </div>
+              <div class="item">
+                <img src="img/ad04.jpg" />
+                <div class="mask">
+                  <span>市中心大樓</span>
+                  <div class="icon"></div>
+                </div>
+              </div>
+              </div>
+              <div class="works3">
+
+              </div>
+            </section>
+          </li>
+          <li class="about">
+            <section>
+              <header class="about1 commonTitle">
+                <span>「專業、用心、服務」，是我們對每個顧客所秉持的態度</span></br>
+                <span>我們銷售的不單只是房屋，而是替顧客買一個幸福的窩!</span></br>
+                <span>我們付出，給你最好!</span></br>
+              </header>
+              <div class="about2">
+                <p class="commonText">讓我們的專業成就您的幸福。超值降價。名宅別墅。服務: 超值降價, 尋找好屋, 專業委賣。</p>
+              </div>
+              <div class="about3">
+                <div class="item">
+                  <span></span>
+                  <ul data-src="img/egg01.jpg"></ul>
+                  </div>
+                  <div class="item">
+                    <span></span>
+                    <ul data-src="img/egg02.jpg"></ul>
+                    </div>
+              </div>
+              <div class="about4"></div>
+            </section>
+          </li>
+          <li class="team">
+            <section>
+              <header class="team1 commonTitle">
+                <span>團隊夥伴</span></br>
+                <span>用心服務</span></br>
+              </header>
+              <div class="team2 commonText">
+                <p>培育團隊精神及全球視野的管理專業人才，以服務於經濟社會。</p>
+                <p>強調四大目標：強化專業素養、提昇研究能力、發揮團隊精神、拓展國際視野。</p>
+              </div>
+              <div class="team33">
+              <ul class="team3">
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+               
+              </ul>
+              </div>
+            </section>
+          </li>
+        </ul>
+        <ul class="dot">
+          <li class="active"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </section>
+    </section>
+  </body>
+  <script type="text/javascript">
+    window.onload = function() {
+      var headHeight = document.querySelector('.head > .headMain');
+      var home = document.querySelectorAll(' nav > ul > li');
+      var homeLeft = home[0].offsetLeft;
+      var arrow = document.querySelector('.arrow');
+      var upList = document.querySelectorAll('nav > ul > li>.up');
+      var firstUp = document.querySelector('nav > ul > li:nth-child(1)>.up');
+      var content = document.querySelector('.content');
+
+      var cliNodes = document.querySelectorAll('.content .list > li');
+      var cList = document.querySelector('.content .list');
+
+      var home1=document.querySelector(".content .list > .home .home1");
+      var homeNodes=document.querySelectorAll(".content .list > .home .home1>li");
+     var home2Nodes=document.querySelectorAll(".content .list > .home .home2>li");
+     var line=document.querySelector(".line");
+     var mask=document.querySelector("#mask");
+     var openBlock=document.querySelectorAll(" #mask >div");
+      var now = 0;
+      var time3D=0;
+      var autoIndex=0;
+      var preAaa=0;
+
+      var aboutUls=document.querySelectorAll(".content .list > .about .about3>.item>ul");
+      var dotLis=document.querySelectorAll(".content .dot>li");
+      var team3Lis=document.querySelectorAll(".content .list > .team .team3>li");
+      var teamSection=document.querySelector(".content .list > .team section")
+      var team3=document.querySelector(".content .list > .team .team3");
+
+      var music=document.querySelector(".music");
+      var audio=document.querySelector("audio");
+      //側邊圓點
+      for (var i = 0; i < dotLis.length; i++) {
+          /*轉綁*/
+          dotLis[i].index = i;
+          dotLis[i].onclick = function() {
+            preAaa=now;
+            move(this.index);
+            now = this.index;
+          };
+        }
+
+     
+
+      //第一屏3D效果
+      home3D();
+      var oldIndex=0;
+      function home3D(){
+        for(var i=0;i<home2Nodes.length;i++){
+          home2Nodes[i].index=i;
+          home2Nodes[i].onclick=function(){
+            clearInterval(time3D);
+           
+           /*小圓點切換*/
+            for(var i=0;i<home2Nodes.length;i++){
+              home2Nodes[i].classList.remove("active");
+            }
+            this.classList.add("active")
+            //從左往右按leftHide rightShow
+            if(this.index>oldIndex){
+              homeNodes[this.index].classList.remove("leftShow");
+              homeNodes[this.index].classList.remove("rightHide");
+              homeNodes[this.index].classList.remove("leftHide");
+              homeNodes[this.index].classList.add("rightShow");
+
+              homeNodes[oldIndex].classList.remove("leftShow");
+              homeNodes[oldIndex].classList.remove("rightHide");
+              homeNodes[oldIndex].classList.remove("rightShow");
+              homeNodes[oldIndex].classList.add("leftHide");
+              //從右往左按 leftShow rightHide
+            }if(this.index<oldIndex){
+              homeNodes[this.index].classList.remove("rightShow");
+              homeNodes[this.index].classList.remove("rightHide");
+              homeNodes[this.index].classList.remove("leftHide");
+              homeNodes[this.index].classList.add("leftShow");
+
+              homeNodes[oldIndex].classList.remove("leftShow");
+              homeNodes[oldIndex].classList.remove("leftHide");
+              homeNodes[oldIndex].classList.remove("rightShow");
+              homeNodes[oldIndex].classList.add("rightHide");
+
+            }
+            console.log(homeNodes[this.index].classList,homeNodes[oldIndex].classList)
+            oldIndex=this.index;
+
+            /*手動輪播-->自動輪播的同步問題
+            手動點完事需要自動輪播的，所以點的當下取消自動輪播然後後來又需要再加上自動輪播*/
+            //手動輪播必須告訴自動輪播我剛剛點到哪一個
+           autoIndex=this.index;
+           //接著開始自動播放
+           autoPlay();
+          }
+        }
+
+        /*從左向右自動輪播*/
+        autoPlay();
+        function autoPlay(){
+          clearInterval(time3D)
+          time3D=setInterval(function(){
+            autoIndex++;
+            if(autoIndex==homeNodes.length){
+              autoIndex=0;
+            }
+
+             /*小圓點同步切換*/
+             for(var i=0;i<home2Nodes.length;i++){
+              home2Nodes[i].classList.remove("active");
+            }
+            home2Nodes[autoIndex].classList.add("active")
+
+            homeNodes[autoIndex].classList.remove("leftShow");
+              homeNodes[autoIndex].classList.remove("rightHide");
+              homeNodes[autoIndex].classList.remove("leftHide");
+              homeNodes[autoIndex].classList.add("rightShow");
+
+              homeNodes[oldIndex].classList.remove("leftShow");
+              homeNodes[oldIndex].classList.remove("rightHide");
+              homeNodes[oldIndex].classList.remove("rightShow");
+              homeNodes[oldIndex].classList.add("leftHide");
+
+            /*使自動輪播--->手動輪播同步*/
+            //自動輪播一直運行...autoIndex一直加加，自動輪播到一半時有可能觸發手動輪播
+            //這時自動輪播必須告訴手動輪播我撥到哪一個上了
+            oldIndex=autoIndex;
+          },1700)
+        }
+        //滑鼠移入停止自動輪播
+        home1.onmouseenter=function(){
+          clearInterval(time3D)
+        }
+        //滑鼠移出又開始自動輪播
+        home1.onmouseleave=function(){
+          autoPlay();
+        }
+      }
+      /* 凡是跟視口高度有關係的重製時都要再跑一遍 */
+      window.onresize = function() {
+        /* 調整分辨率
+          1.沒有點擊的時候純粹縮放視口大小時只能出現一屏 contentBind();
+          2.點擊後視口縮放大小只能出現一屏:cList.style.top重新進行調整
+          3.小箭頭位置也需要不斷修正
+          4.width=100%不用進行調整，因為是寫進CSS內，所以每次縮放視口CSS會自動重新渲染*/
+
+        contentBind();
+        cList.style.top = -now * (document.documentElement.clientHeight - headHeight.offsetHeight) + 'px';
+        arrow.style.left = home[now].offsetLeft + home[now].offsetWidth / 2 - arrow.offsetWidth / 2 + 'px';
+      };
+
+      /*  內容區交互 */
+      //1.滑鼠滾輪
+      var dir = '';
+      var timer;
+      if (content.addEventListener) {
+        content.addEventListener('DOMMouseScroll', function(ev) {
+          ev = ev || window.event;
+          //讓fn()在滾輪瘋狂觸發時可以不斷被清掉，直到200毫秒後再執行fn()
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            fn(ev);
+          }, 200);
+        });
+      }
+      content.onmousewheel = function(ev) {
+        ev = ev || window.event;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          fn(ev);
+        }, 200);
+      };
+      function fn(ev) {
+        ev = ev || window.event;
+        /*滾輪事件只有firefox比較特殊，使用DOMMouseScroll; 其他瀏覽器使用mousewheel;
+1.mousewheel事件中的“event.wheelDelta”屬性值：返回的值，如果是正值說明滾輪是向上滾動，如果是負值說明滾輪是向下滾動；返回的值，均為120的倍數，即：幅度大小=返回的值/ 120。 
+2. DOMMouseScroll事件中的“event.detail”屬性值：返回的值，如果是負值說明滾輪是向上滾動（與“event.wheelDelta”正好相反），如果是正值說明滾輪是向下滾動；返回的值，均為3的倍數，即：幅度大小=返回的值/ 3。 */
+        if (ev.wheelDelta) {
+          dir = ev.wheelDelta > 0 ? 'up' : 'down';
+        } else if (ev.detail) {
+          dir = ev.detail < 0 ? 'up' : 'down';
+        }
+        preAaa=now;
+        if (dir == 'up') {
+          if (now > 0) {
+            now--;
+            move(now);
+          }
+        } else if (dir == 'down') {
+          if (now < home.length - 1) {
+            now++;
+            move(now);
+          }
+        }
+      }
+
+      //2.內容視口大小控制
+      contentBind();
+      function contentBind() {
+        content.style.height = document.documentElement.clientHeight - headHeight.offsetHeight + 'px';
+
+        for (var i = 0; i < cliNodes.length; i++) {
+          cliNodes[i].style.height = document.documentElement.clientHeight - headHeight.offsetHeight + 'px';
+        }
+      }
+      /* 頭部交互 */
+      headBind();
+      function headBind() {
+        arrow.style.left = homeLeft + home[0].offsetWidth / 2 - arrow.offsetWidth / 2 + 'px';
+
+        firstUp.style.width = '100%';
+
+        for (var i = 0; i < home.length; i++) {
+          /*轉綁*/
+          home[i].index = i;
+          home[i].onclick = function() {
+            console.log(this.index);
+            preAaa=now;
+            move(this.index);
+            now = this.index;
+          };
+        }
+      }
+      /* move(4); */
+      function move(aaa) {
+        for (var i = 0; i < upList.length; i++) {
+          upList[i].style.width = ''; 
+        }
+        upList[aaa].style.width = '100%';
+        arrow.style.left = home[aaa].offsetLeft + home[aaa].offsetWidth / 2 - arrow.offsetWidth / 2 + 'px';
+        cList.style.top = -aaa * (document.documentElement.clientHeight - headHeight.offsetHeight) + 'px';
+        for(var i=0;i<dotLis.length;i++){
+          dotLis[i].className="";
+        }
+        dotLis[aaa].className="active";
+
+        //出入場
+        if(anArr[aaa]&&typeof anArr[aaa]["inAn"]==="function"){
+          anArr[aaa]["inAn"]();
+        }
+        if(anArr[preAaa]&&typeof anArr[preAaa]["outAn"]==="function"){
+          anArr[preAaa]["outAn"]();
+        }
+      }
+
+      //第4屏圖片炸裂效果
+      picBoom();
+      function picBoom(){
+        for(var i=0;i<aboutUls.length;i++){
+          
+          change(aboutUls[i]);
+        }
+
+        function change(UL){
+          var src=UL.dataset.src;
+          for(var i=0;i<4;i++){
+            var liNode=document.createElement("li");
+          var imgNode=document.createElement("img");
+          var w=UL.offsetWidth/2;
+          var h=UL.offsetHeight/2;
+          liNode.style.width=w+"px";
+          liNode.style.height=h+"px";
+          imgNode.src=src;
+
+          imgNode.style.left=-(i%2)*w+"px";
+          imgNode.style.top=-Math.floor(i/2)*h+"px";
+          UL.appendChild(liNode);
+          liNode.appendChild(imgNode);
+          
+          UL.onmouseenter=function(){
+            var imgNodes=this.querySelectorAll("li>img");
+            imgNodes[0].style.top=h+"px";
+            imgNodes[1].style.left=-2*w+"px";
+            imgNodes[2].style.left=w+"px";
+            imgNodes[3].style.top=-2*h+"px";
+          }
+          UL.onmouseleave=function(){
+            var imgNodes=this.querySelectorAll("li>img");
+            imgNodes[0].style.top=0+"px";
+            imgNodes[1].style.left=-w+"px";
+            imgNodes[2].style.left=0+"px";
+            imgNodes[3].style.top=-h+"px";
+          }
+          }
+        }
+      }
+      /*第5屏氣泡效果*/
+      bouble();
+      function bouble(){
+        var time1=0;
+        var time2=0;
+        var oc=null;
+        for(var i=0;i<team3Lis.length;i++){
+          team3Lis[i].onmouseenter=function(){
+            for(var i=0;i<team3Lis.length;i++){
+              team3Lis[i].style.opacity=.5;
+            }
+            this.style.opacity=1;
+           addCanvas();
+            oc.style.left=45+this.offsetLeft+"px";
+           
+          }
+          function addCanvas(){
+            if(!oc){
+              oc=document.createElement("canvas");
+              oc.width=team3Lis[2].offsetWidth;
+              oc.height=team3Lis[0].offsetHeight;
+              oc.onmouseleave=function(){
+          for(var i=0;i<team3Lis.length;i++){
+          team3Lis[i].style.opacity=1;
+          }
+          removeCanvas();
+        }
+              teamSection.appendChild(oc);
+              boo();
+            }
+
+          }
+          function removeCanvas(){
+            oc.remove();
+            clearInterval(time1);
+            clearInterval(time2);
+            oc=null;
+          }
+        }
+       
+
+        function boo(){
+         
+          if (oc.getContext) {
+          var ctx = oc.getContext('2d');
+          var circle = [];
+          console.log(1);
+
+          time1=setInterval(() => {
+            ctx.clearRect(0, 0, oc.width, oc.height);
+            for (var i = 0; i < circle.length; i++) {
+              circle[i].r++;
+              circle[i].alpa -= 0.02;
+              if (circle[i].alpa < 0) {
+                circle.splice(i, 1);
+              }
+            }
+            for (var i = 0; i < circle.length; i++) {
+              ctx.save();
+              ctx.fillStyle = 'rgba(' + circle[i].red + ',' + circle[i].green + ',' + circle[i].blue + ',' + circle[i].alpa + ')';
+              ctx.beginPath();
+
+              ctx.arc(circle[i].x, circle[i].y, circle[i].r, 0, 2 * Math.PI);
+
+              ctx.fill();
+              ctx.restore();
+            }
+          }, 15);
+
+          time2=setInterval(() => {
+            console.log(oc.width);
+            var X = Math.random() * oc.width;
+            var Y = Math.random() * oc.height;
+            var R = 5;
+            var Red = Math.round(Math.random() * 255);
+            var Green = Math.round(Math.random() * 255);
+            var Blue = Math.round(Math.random() * 255);
+            var Alpa = 1;
+            circle.push({
+              x: X,
+              y: Y,
+              r: R,
+              red: Red,
+              green: Green,
+              blue: Blue,
+              alpa: Alpa,
+            });
+          }, 500);
+        }
+        }
+       
+      }
+    /*出入場*/
+    var anArr=[
+      {
+        inAn:function(){
+          var home1=document.querySelector(".content .list > .home .home1");
+          var home2=document.querySelector(".content .list > .home .home2");
+
+          home1.style.transform="translateY(0px)";
+          home2.style.transform="translateY(0px)";
+          home1.style.opacity="1";
+          home2.style.opacity="1";
+        },
+        outAn:function(){
+          var home1=document.querySelector(".content .list > .home .home1");
+          var home2=document.querySelector(".content .list > .home .home2");
+
+          home1.style.transform="translateY(-400px)";
+          home2.style.transform="translateY(400px)";
+          home1.style.opacity="0";
+          home2.style.opacity="0";
+        }
+      },
+      {
+        inAn:function(){
+          var plane1=document.querySelector(".content .list > .course .plane1");
+          var plane2=document.querySelector(".content .list > .course .plane2");
+
+          plane1.style.transform="translate(0px)";
+          plane2.style.transform="translate(0px)";
+        },
+        outAn:function(){
+          var plane1=document.querySelector(".content .list > .course .plane1");
+          var plane2=document.querySelector(".content .list > .course .plane2");
+
+          plane1.style.transform="translate(-300px,500px)";
+          plane2.style.transform="translate(-500px,700px)";
+        }
+      },
+      {
+        inAn:function(){},
+        outAn:function(){
+          
+        }
+      },
+      {
+        inAn:function(){
+          var item1=document.querySelector(".content .list > .about .about3>.item:nth-child(1)");
+          var item2=document.querySelector(".content .list > .about .about3>.item:nth-child(2)");
+
+          item1.style.transform="rotate(0deg)";
+          item2.style.transform="rotate(0deg)";
+        },
+        outAn:function(){
+          var item1=document.querySelector(".content .list > .about .about3>.item:nth-child(1)");
+          var item2=document.querySelector(".content .list > .about .about3>.item:nth-child(2)");
+
+          item1.style.transform="rotate(45deg)";
+          item2.style.transform="rotate(-45deg)";
+          
+          
+        }
+      },
+      {
+        inAn:function(){
+          var team1=document.querySelector(" .content .list > .team .team1");
+          var team2=document.querySelector(".content .list > .team .team2");
+
+          team1.style.transform="translateX(0px)";
+          team2.style.transform="translateX(0px)";
+          team1.style.opacity="1";
+          team2.style.opacity="1";
+        },
+        outAn:function(){
+          var team1=document.querySelector(" .content .list > .team .team1");
+          var team2=document.querySelector(".content .list > .team .team2");
+
+          team1.style.transform="translateX(-500px)";
+          team2.style.transform="translateX(500px)";
+          team1.style.opacity="0";
+          team2.style.opacity="0";
+          
+        }
+      },
+    ]
+    for(var i=0;i<anArr.length;i++){
+      anArr[i]["outAn"]();
+    }
+    setTimeout(() => {
+      anArr[0].inAn();
+    }, 1000); 
+    /* anArr[4].outAn();
+    setTimeout(() => {
+      anArr[4].inAn();
+    }, 2000); */
+
+    /*音樂播放*/
+    music.onclick=function(){
+      if(audio.paused){
+        audio.play();
+        music.style.background="url(img/musicOn.png)  pink";
+        music.style.backgroundSize="contain";
+      }else{
+        audio.pause();
+        music.style.background="url(img/musicOff.png) pink";
+        music.style.backgroundSize="contain";
+      }
+    }
+    /*開機動畫*/
+    loadingAn();
+    function loadingAn(){
+      var arr=["ad01.jpg","ad02.jpg","ad03.jpg","ad04.jpg","back01.jpg","back02.jpg","back03.jpg","back04.jpg","back05.jpg","logo.png"];
+      var flag=0;
+      for(var i=0;i<arr.length;i++){
+        var img=new Image();
+        img.src="img/"+arr[i];
+        img.onload=function(){
+          flag++;
+          console.log(flag);
+          line.style.width=flag/arr.length*100+"%";
+        }
+      }
+    line.addEventListener("transitionend",function(){
+      if(flag===arr.length){
+        for(var i=0;i<openBlock.length;i++){
+          openBlock[i].style.height=0+"px";
+          line.style.display="none";
+          }
+      }
+    })
+    openBlock[0].addEventListener("transitionend",function(){
+      mask.remove();
+    })
+    }
+    };
+  </script>
+</html>
